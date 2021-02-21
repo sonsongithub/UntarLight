@@ -1,0 +1,9 @@
+{
+    "name": "simple.tar",
+    "entries":[
+        {"type": "file", "path" : "hoge.txt"},
+        {"type": "directory", "path" : "data"},
+        {"type": "file", "path" : "data/hoge.txt"},
+        {"type": "symboliclink", "path" : "link", "link": "data/hoge.txt"}
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "name": "utf8.tar",
+    "entries":[
+        {"type": "file", "path" : "日本語のファイル名は大丈夫ですか？.txt"},
+        {"type": "directory", "path" : "ふぉるだ"},
+        {"type": "file", "path" : "ふぉるだ/日本語のファイル名は大丈夫ですか？.txt"},
+        {"type": "symboliclink", "path" : "りんく", "link": "ふぉるだ/日本語のファイル名は大丈夫ですか？.txt"}
+    ]
+}
