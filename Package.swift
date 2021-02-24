@@ -25,7 +25,7 @@ let package = Package(
         .testTarget(
             name: "UntarLightTests",
             dependencies: ["UntarLight"],
-            exclude: ["Data"],
+            exclude: ["*.py"],
             resources: [
                 .process("Resources"),
             ]

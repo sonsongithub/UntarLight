@@ -4,12 +4,17 @@ import os
 import glob
 import random
 from pathlib import Path
+import hashlib
+import sys
 
 list_json_files = []
 
-os.remove('../UntarLightTests/Resources/list.json')
+try:
+    os.remove('./list.json')
+except:
+    print(sys.exc_info()[0])
 
-for json_file_path in glob.glob('../UntarLightTests/Resources/*.json'):
+for json_file_path in glob.glob('./*.json'):
 
     with open(json_file_path) as json_file:
 
@@ -30,21 +35,25 @@ for json_file_path in glob.glob('../UntarLightTests/Resources/*.json'):
             print(entry["path"])
 
             if entry["type"] == "file":
-                if int(random.uniform(0, 1)*10%2) == 0:
-                    os.system("cp ../sample.png %s" % entry["path"])
-                else:
-                    os.system("cp ../sample.txt %s" % entry["path"])
+                os.system("cp ../sample.txt %s" % entry["path"])
+                with open("../sample.txt", "rb") as fr:
+                    bin = fr.read()
+                    a = hashlib.sha256(bin)
+                    print(a.digest())
+                    
+                    digest = hashlib.sha256(bin).hexdigest()
+                    print(digest)
             elif entry["type"] == "directory":
                 os.system("mkdir %s" % entry["path"])
             elif entry["type"] == "symboliclink":
                 os.system("ln -s %s %s" % (entry["link"], entry["path"]))
 
-        os.system("tar -cf ../../UntarLightTests/Resources/%s *" % file_name)
+        os.system("tar -cf ../%s *" % file_name)
 
         os.chdir('../')
         os.system("rm -r ./tmp")
 
 list_json_files = list(map(lambda x: Path(x).name, list_json_files))
 
-with open('../UntarLightTests/Resources/list.json', 'w') as json_file:
+with open('./list.json', 'w') as json_file:
     json.dump(list_json_files, json_file)

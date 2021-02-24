@@ -224,6 +224,20 @@ extension FileHandle {
     }
 }
 
+func extractFile(fh: FileHandle, entry: Entry) throws -> Data {
+    switch entry {
+    case .file(let _, let offset, let length):
+        print(offset)
+        print(length)
+        fh.seek(toFileOffset: UInt64(offset))
+        let data = fh.readData(ofLength: length)
+        guard data.count == length else { throw UntarLightError.unknownError}
+        return data
+    default:
+        throw UntarLightError.unknownError
+    }
+}
+
 func extractTarEntry(fh: FileHandle) throws -> [Entry] {
     
     var array: [Entry] = []

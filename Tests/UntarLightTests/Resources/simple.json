@@ -1,9 +1,9 @@
 {
     "name": "simple.tar",
     "entries":[
-        {"type": "file", "path" : "hoge.txt"},
+        {"type": "file", "path" : "hoge.txt", "sha256": "374711f867d849c39edfd0fd1b983b21c03eab5f2f95083f3c555372cf22b318"},
         {"type": "directory", "path" : "data"},
-        {"type": "file", "path" : "data/hoge.txt"},
+        {"type": "file", "path" : "data/hoge.txt", "sha256": "374711f867d849c39edfd0fd1b983b21c03eab5f2f95083f3c555372cf22b318"},
         {"type": "symboliclink", "path" : "link", "link": "data/hoge.txt"}
     ]
 }

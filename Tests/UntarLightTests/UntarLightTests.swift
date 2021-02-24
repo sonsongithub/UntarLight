@@ -2,6 +2,7 @@ import XCTest
 @testable import UntarLight
 
 import Foundation
+import CommonCrypto
 
 final class UntarLightTests: XCTestCase {
     
@@ -32,7 +33,7 @@ final class UntarLightTests: XCTestCase {
                 
                 let entries = try extractTarEntry(fh: fh)
                 
-                entries.forEach({
+                try entries.forEach({
                     switch $0 {
                     case .directory(let path):
                         if let index = test_entries.firstIndex(where: { (dict: [String: String]) -> Bool in
@@ -48,8 +49,17 @@ final class UntarLightTests: XCTestCase {
                             guard let type = dict["type"] else { return false }
                             guard let trueName = dict["path"] else { return false }
                             guard type == "file" else { return false }
+                            
                             return trueName == (path)
                         }) {
+                            let dict = test_entries[index]
+                            let data = try extractFile(fh: fh, entry: $0)
+                            let sha256: String = data.digest(type: .sha256)
+                            print(sha256)
+                            guard let trueSha256 = dict["sha256"] else { throw UntarLightError.unknownError }
+                            
+                            XCTAssert(trueSha256 == sha256, "\(fileName) is failed.")
+                            
                             test_entries.remove(at: index)
                         }
                     case .symbolicLink(let name, let path):
